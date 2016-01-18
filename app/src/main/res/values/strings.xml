@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Nest</string>
+    <string name="edit_url_string">地址栏请输入网址</string>
+</resources>
