@@ -1,6 +1,7 @@
 package com.apocalypse.browser.nest.WebViewCore;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -12,9 +13,9 @@ import com.apocalypse.browser.nest.Env.AppEnv;
 public class NestWebCore implements IWebBrowser{
 
     private NestWebView mWebView;
-    private IWebCoreDelegate mWebCoreDelegate;
+    private IWebCoreCallBack mWebCoreDelegate;
 
-    public NestWebCore(Context c, IWebCoreDelegate webCoreDelegate) {
+    public NestWebCore(Context c, IWebCoreCallBack webCoreDelegate) {
         mWebView = new NestWebView(c);
         mWebCoreDelegate = webCoreDelegate;
 
@@ -27,6 +28,7 @@ public class NestWebCore implements IWebBrowser{
         mWebView.setWebViewClient(new NestWebViewClient(mWebCoreDelegate));
         mWebView.setWebChromeClient(new NestWebChromeClient(mWebCoreDelegate));
         mWebView.requestFocusFromTouch();
+        mWebView.setDrawingCacheEnabled(true);
 
         WebSettings webSettings = mWebView.getSettings();
 

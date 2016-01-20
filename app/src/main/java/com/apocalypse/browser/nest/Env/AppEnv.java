@@ -9,4 +9,5 @@ public class AppEnv {
     public static final boolean DEBUG = true;
     public static final String HOME_PAGE = "http://www.baidu.com";
     public static Context MAIN_CONTEXT = null;
+    public static int BROWSER_ID_COUNTER = 1;
 }

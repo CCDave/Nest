@@ -21,9 +21,9 @@ import com.apocalypse.browser.nest.utils.SimpleLog;
 class NestWebChromeClient extends WebChromeClient {
 
     private static final String TAG = "InnerClass-NestWebChromeClient";
-    private IWebCoreDelegate mWebCoreDelegate;
+    private IWebCoreCallBack mWebCoreDelegate;
 
-    public NestWebChromeClient(IWebCoreDelegate webCoreDelegate) {
+    public NestWebChromeClient(IWebCoreCallBack webCoreDelegate) {
         super();
         mWebCoreDelegate = webCoreDelegate;
     }

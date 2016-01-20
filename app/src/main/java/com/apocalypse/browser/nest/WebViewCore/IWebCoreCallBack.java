@@ -6,7 +6,7 @@ import android.webkit.WebView;
 /**
  * Created by Dave on 2016/1/12.
  */
-public interface IWebCoreDelegate {
+public interface IWebCoreCallBack {
 
     //WebUI
     public void onProgressChanged(WebView view, int newProgress);

@@ -1,5 +1,6 @@
 package com.apocalypse.browser.nest.WebViewCore;
 
+import android.graphics.Bitmap;
 import android.webkit.WebView;
 
 /**
@@ -7,6 +8,7 @@ import android.webkit.WebView;
  */
 public interface IWebBrowser {
     public WebView getView();
+
     public void loadUrl(String url);
 
     public boolean canGoBack();
@@ -16,5 +18,4 @@ public interface IWebBrowser {
     public void goForward();
 
     public String getUrl();
-
 }

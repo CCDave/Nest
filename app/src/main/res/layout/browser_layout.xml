@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.apocalypse.browser.nest.BrowserFrame.BrowserFrame
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frame_browser">
+
+    <include layout="@layout/addressbar_layout"/>
+    <include layout="@layout/toolbar_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/contentwebviewframe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/addressbar"
+        android:layout_above="@id/toolbar">
+    </RelativeLayout>
+
+    <include layout="@layout/multviews_layout"/>
+
+    <include layout="@layout/mainmenu_layout"
+        android:id="@+id/mainmenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/toolbar"
+        android:visibility="gone"
+        />
+
+
+</com.apocalypse.browser.nest.BrowserFrame.BrowserFrame>

@@ -20,9 +20,9 @@ import com.apocalypse.browser.nest.utils.SimpleLog;
  */
 class NestWebViewClient extends WebViewClient {
     private static final String TAG = "InnerClass-NestWebViewClient";
-    private IWebCoreDelegate mWebCoreDelegate;
+    private IWebCoreCallBack mWebCoreDelegate;
 
-    NestWebViewClient(IWebCoreDelegate webCoreDelegate){
+    NestWebViewClient(IWebCoreCallBack webCoreDelegate){
         super();
         mWebCoreDelegate = webCoreDelegate;
     }
