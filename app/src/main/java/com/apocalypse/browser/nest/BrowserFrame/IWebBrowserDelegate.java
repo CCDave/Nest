@@ -18,5 +18,7 @@ public interface IWebBrowserDelegate {
     public String getUrl();
     public String getTitle();
     public boolean changeCurrentWebiew(int Id);
+    public void updateWebCacheBitmap();
+    public boolean removeTabItam(int id);
 
 }

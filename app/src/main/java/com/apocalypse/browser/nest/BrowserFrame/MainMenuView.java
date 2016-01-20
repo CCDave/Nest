@@ -48,9 +48,7 @@ public class MainMenuView extends RelativeLayout{
         findViewById(R.id.addfavor).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMainFrameEventCall.addNewTab()){
-                    setVisibility(GONE);
-                }
+
             }
         });
 

@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/multviewimage"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/multviewtitle"/>
 
 </RelativeLayout>

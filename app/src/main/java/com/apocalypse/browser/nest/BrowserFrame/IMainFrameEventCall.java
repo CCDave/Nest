@@ -12,4 +12,5 @@ public interface IMainFrameEventCall {
     boolean addNewTab();
     void changeCurrentView(int Id);
     ArrayList<ITabBrowser> getBrowserData();
+    boolean removeTabItam(int id);
 }

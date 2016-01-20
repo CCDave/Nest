@@ -5,19 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
-    <Button
-        android:id="@+id/gobacktobrowserframe"
-        android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:text="goback"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/multviewlist"
-        android:layout_below="@id/gobacktobrowserframe"
+        android:layout_alignParentTop="true"
         >
-
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/multviewstoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/multviewtitle"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/gobacktobrowserframe"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:layout_weight="1"
+            android:text="goback"/>
+        <Button
+            android:id="@+id/addnewtab"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:text="addnewtab"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+
+
 
 </com.apocalypse.browser.nest.BrowserFrame.MultViewsFrame>

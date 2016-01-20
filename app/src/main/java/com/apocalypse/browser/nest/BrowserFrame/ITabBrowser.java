@@ -12,5 +12,8 @@ public interface ITabBrowser extends IWebBrowser {
     public int getID();
     public String getTitle();
     public Bitmap getWebCacheBitmap();
+    public void updateWebCacheBitmap();
     public ViewGroup getContentView();
+    public void destory();
+
 }

@@ -46,6 +46,27 @@ public class TabViewManager implements IWebBrowserDelegate {
     }
 
     @Override
+    public boolean removeTabItam(int id) {
+        boolean isSucceed = false;
+        if (mTabViews.size() <= 1){
+            return isSucceed;
+        }
+
+        for (ITabBrowser tabBrowser : mTabViews){
+            if (tabBrowser.getID() == id){
+                mTabViews.remove(tabBrowser);
+                if (mCurrentTabView.getID() == tabBrowser.getID()){
+                    changeCurrentWebiew(mTabViews.get(0).getID());
+                }
+                isSucceed = true;
+                tabBrowser.destory();
+                break;
+            }
+        }
+        return isSucceed;
+    }
+
+    @Override
     public boolean changeCurrentWebiew(int Id) {
         boolean isSucceed = false;
         if (mCurrentTabView.getID() == Id)
@@ -121,5 +142,10 @@ public class TabViewManager implements IWebBrowserDelegate {
     @Override
     public boolean canGoForward() {
         return mCurrentTabView.canGoForward();
+    }
+
+    @Override
+    public void updateWebCacheBitmap() {
+        mCurrentTabView.updateWebCacheBitmap();
     }
 }

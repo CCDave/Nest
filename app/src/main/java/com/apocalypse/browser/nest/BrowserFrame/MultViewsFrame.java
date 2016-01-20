@@ -51,6 +51,14 @@ public class MultViewsFrame extends RelativeLayout{
         mListContent = ((RelativeLayout)findViewById(R.id.multviewlist));
         mListContent.addView(mListView);
 
+        findViewById(R.id.addnewtab).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freeMemory();
+                mainFrameEventCall.addNewTab();
+                mMainFrameEventCall.showBrowserFrame();
+            }
+        });
         findViewById(R.id.gobacktobrowserframe).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,22 +71,14 @@ public class MultViewsFrame extends RelativeLayout{
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int nId = ((int) mData.get(position).get("id"));
-                freeMemory();
-                mainFrameEventCall.changeCurrentView(nId);
-                mainFrameEventCall.showBrowserFrame();
+
             }
         });
     }
 
     private void freeMemory(){
-
-//        for (Map<String, Object> item : mData){
-//            Bitmap image = (Bitmap)item.get("image");
-//            image.recycle();
-//        }
-//        mData.clear();
-//        mAdapter.notifyDataSetChanged();
+        mData.clear();
+        mAdapter.notifyDataSetChanged();
     }
 
     public void initViews(){
@@ -101,6 +101,7 @@ public class MultViewsFrame extends RelativeLayout{
     private final class ViewHolder{
         public ImageView image;
         public TextView title;
+        public int id;
     }
 
     private class MultViewAdapter extends BaseAdapter {
@@ -132,6 +133,7 @@ public class MultViewsFrame extends RelativeLayout{
             if (holder != null){
                 holder.image.setImageBitmap((Bitmap) mData.get(position).get("image"));
                 holder.title.setText((String)mData.get(position).get("title"));
+                holder.id = (int)mData.get(position).get("id");
 
 
                 if (convertView != null){
@@ -145,19 +147,34 @@ public class MultViewsFrame extends RelativeLayout{
                             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                                 startX = (int) event.getX();
                                 SimpleLog.d("startX", "" + startX);
-                                return false;
+                                return true;
                             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                                 endX = (int) event.getX();
                                 SimpleLog.d("endX", "" + endX);
                                 if (startX - endX > 80) {
                                     SimpleLog.d("触发", "左划");
-                                    return false;
+                                    return true;
                                 } else if (endX - startX > 80) {
                                     SimpleLog.d("触发", "右划");
-                                    return false;
+                                    ViewHolder holder1 = (ViewHolder)v.getTag();
+                                    if (holder1!=null){
+                                        if (mMainFrameEventCall.removeTabItam(holder1.id)){
+                                            mData.remove(mListView.getPositionForView(v));
+                                            mAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+
+
+                                    return true;
                                 } else {
-                                    SimpleLog.d("触发","点击");
-                                    return false;
+                                    SimpleLog.d("触发", "点击");
+                                    ViewHolder holder1 = (ViewHolder)v.getTag();
+                                    if (holder1!=null){
+                                        freeMemory();
+                                        mMainFrameEventCall.changeCurrentView(holder1.id);
+                                        mMainFrameEventCall.showBrowserFrame();
+                                    }
+                                    return true;
                                 }
                             }
                             return false;

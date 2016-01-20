@@ -3,6 +3,7 @@ package com.apocalypse.browser.nest.BrowserFrame;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.ThumbnailUtils;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -11,6 +12,8 @@ import android.widget.RelativeLayout;
 import com.apocalypse.browser.nest.Env.AppEnv;
 import com.apocalypse.browser.nest.WebViewCore.IWebCoreCallBack;
 import com.apocalypse.browser.nest.WebViewCore.NestWebCore;
+import com.apocalypse.browser.nest.utils.SimpleLog;
+import com.apocalypse.browser.nest.utils.ViewUtils;
 
 /**
  * Created by Dave on 2016/1/19.
@@ -20,11 +23,13 @@ public class TabView implements IWebCoreCallBack, ITabBrowser {
     private ViewGroup mContentView;
     private Context mContext;
     private IWebCoreCallBack mWebCoreCallBack;
+    private Bitmap mSmallBitmap;
 
     private int mId;
     private String mTitle;
 
     TabView(Context c, IWebCoreCallBack webCoreCallBack, String url){
+        mSmallBitmap = null;
         mContext = c;
         mWebCoreCallBack= webCoreCallBack;
         mWebCore = new NestWebCore(c, this);
@@ -73,6 +78,12 @@ public class TabView implements IWebCoreCallBack, ITabBrowser {
     }
 
     @Override
+    public void destory() {
+        SimpleLog.d("TabView", "destory");
+
+    }
+
+    @Override
     public int getID() {
         return mId;
     }
@@ -86,11 +97,27 @@ public class TabView implements IWebCoreCallBack, ITabBrowser {
     public ViewGroup getContentView(){return mContentView;}
 
     @Override
+    public void updateWebCacheBitmap() {
+        if (mSmallBitmap != null){
+            if (!mSmallBitmap.isRecycled())
+                mSmallBitmap.recycle();
+            mSmallBitmap = null;
+        }
+
+        if (mSmallBitmap == null){
+            Bitmap bitmap;
+            bitmap = Bitmap.createBitmap(mContentView.getWidth(), (mContentView.getHeight() / 2), Bitmap.Config.RGB_565 );
+            Canvas canvas = new Canvas(bitmap);
+            mContentView.draw(canvas);
+            mSmallBitmap = ViewUtils.getMagicBitmap(bitmap, 0.5f, 0.5f);
+            if (!bitmap.isRecycled())
+                bitmap.recycle();
+        }
+    }
+
+    @Override
     public Bitmap getWebCacheBitmap(){
-        Bitmap bmp = Bitmap.createBitmap(mWebCore.getView().getWidth(), mWebCore.getView().getHeight(), Bitmap.Config.RGB_565 );
-        Canvas canvas = new Canvas(bmp);
-        mWebCore.getView().draw(canvas);
-        return bmp;
+        return mSmallBitmap;
     }
 
     @Override

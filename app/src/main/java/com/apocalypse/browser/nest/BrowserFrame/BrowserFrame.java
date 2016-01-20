@@ -56,6 +56,7 @@ public class BrowserFrame extends RelativeLayout {
     private class MainFrameEventCall implements IMainFrameEventCall{
         @Override
         public void showMultViewsFrame() {
+            mTabViewManager.updateWebCacheBitmap();
             mMultViewsFrame.initViews();
             realShowMultViewsFrame();
         }
@@ -83,6 +84,11 @@ public class BrowserFrame extends RelativeLayout {
         @Override
         public ArrayList<ITabBrowser> getBrowserData() {
             return mTabViewManager.getData();
+        }
+
+        @Override
+        public boolean removeTabItam(int id) {
+            return mTabViewManager.removeTabItam(id);
         }
     }
     private void realChangeCurrentView(int Id){
