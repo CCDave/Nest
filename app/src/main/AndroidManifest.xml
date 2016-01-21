@@ -11,7 +11,7 @@
 
         <activity
             android:name="com.apocalypse.browser.nest.Activitys.Main"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:hardwareAccelerated="true">
 
             <intent-filter>

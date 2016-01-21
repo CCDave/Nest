@@ -13,4 +13,6 @@ public interface IMainFrameEventCall {
     void changeCurrentView(int Id);
     ArrayList<ITabBrowser> getBrowserData();
     boolean removeTabItam(int id);
+    void addEditText(String addString);
+    boolean addressEditFocus();
 }

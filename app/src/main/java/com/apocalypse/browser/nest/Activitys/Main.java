@@ -7,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.apocalypse.browser.nest.BrowserFrame.BrowserFrame;
-import com.apocalypse.browser.nest.BrowserFrame.MultViewsFrame;
 import com.apocalypse.browser.nest.Env.AppEnv;
 import com.apocalypse.browser.nest.R;
 import com.apocalypse.browser.nest.WelcomeFrame.WelcomeFrame;
@@ -23,9 +22,6 @@ public class Main extends Activity {
 
     // Browser View
     BrowserFrame mBrowserFrame = null;
-
-    // MultViews
-    MultViewsFrame mMultViewsFrame = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

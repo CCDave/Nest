@@ -68,12 +68,6 @@ public class MultViewsFrame extends RelativeLayout{
             }
         });
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
     }
 
     private void freeMemory(){
@@ -148,9 +142,12 @@ public class MultViewsFrame extends RelativeLayout{
                                 startX = (int) event.getX();
                                 SimpleLog.d("startX", "" + startX);
                                 return true;
+
                             } else if (event.getAction() == MotionEvent.ACTION_UP) {
+
                                 endX = (int) event.getX();
                                 SimpleLog.d("endX", "" + endX);
+
                                 if (startX - endX > 80) {
                                     SimpleLog.d("触发", "左划");
                                     return true;
@@ -163,8 +160,6 @@ public class MultViewsFrame extends RelativeLayout{
                                             mAdapter.notifyDataSetChanged();
                                         }
                                     }
-
-
                                     return true;
                                 } else {
                                     SimpleLog.d("触发", "点击");

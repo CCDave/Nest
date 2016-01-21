@@ -1,7 +1,7 @@
 package com.apocalypse.browser.nest.BrowserFrame;
 
-import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,9 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.apocalypse.browser.nest.R;
-import com.apocalypse.browser.nest.WebViewCore.IWebBrowser;
 import com.apocalypse.browser.nest.utils.SimpleLog;
 import com.apocalypse.browser.nest.utils.SystemFun;
 import com.apocalypse.browser.nest.utils.UrlUtils;
@@ -28,6 +26,7 @@ public class NAddressBar extends RelativeLayout{
     private String mUrl;
 
     private IWebBrowserDelegate mBrowserDelegate;
+    private IMainFrameEventCall mMainFrameEventCall;
 
     public NAddressBar(Context context) {
         super(context);
@@ -38,14 +37,31 @@ public class NAddressBar extends RelativeLayout{
         super(context, attrs);
     }
 
-    void setUrl(String url){mUrl = url;}
-    String getUrl(){return mUrl;}
+    public void setUrl(String url){mUrl = url;}
+    public String getUrl(){return mUrl;}
 
-    void setTitle(String title){mTitle = title;}
+    public void setTitle(String title){mTitle = title;}
     String getTitle(){return mTitle;}
 
-    void setEditText(String s){mAddrEditText.setText(s);}
+    public void setEditText(String s){mAddrEditText.setText(s);}
     String getEditText(){return mAddrEditText.getText().toString();}
+
+    public void addEditText(String str){
+        int index = mAddrEditText.getSelectionStart();//获取光标所在位置
+        Editable edit = mAddrEditText.getEditableText();//获取EditText的文字
+        edit.delete(index, mAddrEditText.getSelectionEnd());
+        if (index < 0 || index >= edit.length() ){
+            edit.append(str);
+        }else{
+            edit.insert(index, str);//光标所在位置插入文字
+        }
+    }
+
+    public boolean hasFocus(){
+        if (mAddrEditText != null)
+            return mAddrEditText.hasFocus();
+        return false;
+    }
 
     void setProgressBarVisibility(int v){
         mProgressBar.setVisibility(v);
@@ -64,11 +80,12 @@ public class NAddressBar extends RelativeLayout{
         SimpleLog.d("onPageStarted", "Progress : " + String.valueOf(newProgress));
     }
 
-    public void init(IWebBrowserDelegate browserDelegate){
+    public void init(IWebBrowserDelegate browserDelegate, IMainFrameEventCall mainFrameEventCall){
 
         mAddrEditText = null;
-        mBrowserDelegate = browserDelegate;
         mProgressBar = null;
+        mBrowserDelegate = browserDelegate;
+        mMainFrameEventCall = mainFrameEventCall;
         initEdit();
         initProgress();
     }
@@ -82,7 +99,6 @@ public class NAddressBar extends RelativeLayout{
 
         mAddrEditText = (EditText)findViewById(R.id.edit_url);
         mAddrEditText.setSelectAllOnFocus(true);
-
         mAddrEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -114,6 +130,7 @@ public class NAddressBar extends RelativeLayout{
                     // 此处为得到焦点时的处理内容
                     mAddrEditText.setText(mUrl);
                     mAddrEditText.selectAll();
+
                 } else {
                     // 此处为失去焦点时的处理内容
                     mAddrEditText.setText(mTitle);

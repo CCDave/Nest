@@ -20,8 +20,9 @@
 
     <ImageView
         android:id="@+id/multviewimage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/multviewtitle"/>
+        android:layout_below="@id/multviewtitle"
+        android:gravity="center"/>
 
 </RelativeLayout>

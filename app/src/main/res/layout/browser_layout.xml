@@ -16,6 +16,10 @@
         android:layout_above="@id/toolbar">
     </RelativeLayout>
 
+    <include layout="@layout/keyboard_layout"
+        android:id="@+id/keyboardtool"
+        android:visibility="gone"
+        />
     <include layout="@layout/multviews_layout"/>
 
     <include layout="@layout/mainmenu_layout"

@@ -20,5 +20,4 @@ public interface IWebBrowserDelegate {
     public boolean changeCurrentWebiew(int Id);
     public void updateWebCacheBitmap();
     public boolean removeTabItam(int id);
-
 }

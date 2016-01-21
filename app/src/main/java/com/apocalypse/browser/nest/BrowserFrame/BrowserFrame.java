@@ -2,14 +2,18 @@ package com.apocalypse.browser.nest.BrowserFrame;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.apocalypse.browser.nest.R;
 import com.apocalypse.browser.nest.WebViewCore.IWebCoreCallBack;
 import com.apocalypse.browser.nest.utils.SimpleLog;
+import com.apocalypse.browser.nest.utils.SystemFun;
 
 import java.util.ArrayList;
 
@@ -23,24 +27,42 @@ public class BrowserFrame extends RelativeLayout {
     private TabViewManager mTabViewManager;
     private MultViewsFrame mMultViewsFrame;
     private MainMenuView mMainMenuView;
+    private NKeyBoardTool mKeyBoardTool;
 
     private IWebCoreCallBack mWebCoreCallBack;
+    private int mVisibleHeight = 0;
 
     public BrowserFrame(Context context) { super(context); }
     public BrowserFrame(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+
+
     public void init(){
+
+        IMainFrameEventCall mainFrameEventCall = new MainFrameEventCall();
+
         mWebCoreCallBack = new WebCoreCallBack();
         mTabViewManager = new TabViewManager(getContext(),
                 (RelativeLayout)findViewById(R.id.contentwebviewframe),
                 mWebCoreCallBack);
 
         mAddressBar = (NAddressBar)findViewById(R.id.addressbar);
-        mAddressBar.init(mTabViewManager);
+        mAddressBar.init(mTabViewManager, mainFrameEventCall);
 
-        IMainFrameEventCall mainFrameEventCall = new MainFrameEventCall();
+        mKeyBoardTool = (NKeyBoardTool)findViewById(R.id.keyboardtool);
+        mKeyBoardTool.init(mainFrameEventCall);
+
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                getWindowVisibleDisplayFrame(r);
+                int visibleHeight = r.height();
+                mKeyBoardTool.listenKeyBoardHeight(visibleHeight);
+            }
+        });
 
         mToolBar = (NToolBar)findViewById(R.id.toolbar);
         mToolBar.init(mTabViewManager, mainFrameEventCall);
@@ -52,8 +74,17 @@ public class BrowserFrame extends RelativeLayout {
         mMainMenuView.init(mainFrameEventCall);
     }
 
-
     private class MainFrameEventCall implements IMainFrameEventCall{
+        @Override
+        public boolean addressEditFocus() {
+            return mAddressBar.hasFocus();
+        }
+
+        @Override
+        public void addEditText(String addString) {
+            mAddressBar.addEditText(addString);
+        }
+
         @Override
         public void showMultViewsFrame() {
             mTabViewManager.updateWebCacheBitmap();
@@ -90,6 +121,7 @@ public class BrowserFrame extends RelativeLayout {
         public boolean removeTabItam(int id) {
             return mTabViewManager.removeTabItam(id);
         }
+
     }
     private void realChangeCurrentView(int Id){
         if (mTabViewManager.changeCurrentWebiew(Id)){
